@@ -13,12 +13,10 @@
             width: 100%;
             height: .7rem;
             background-color: #ffffff;
-        }
-        .header span{
-            display: inline-block;
-            width: 100%;
-            height: .7rem;
-            text-align: center;
+            /*垂直水平居中*/
+            display:flex;
+            justify-content:center;
+            align-items:center;
         }
         body{
             background-color: darkslateblue;
@@ -120,6 +118,9 @@
             bottom: .2rem;
         }
         @media (min-width: 750px) {
+            .header span{
+                font-size: 24px;
+            }
             .itemFloorTitle span{
                 font-size: 24px;
             }
@@ -140,11 +141,34 @@
             }
         }
         @media (min-width: 640px) and (max-width: 749px) {
+            .header span{
+                font-size: 12px;
+            }
             .goodsInfo{
                 font-size: 12px;
             }
             .priceNow span:nth-child(2){
                 font-size: 20px;
+            }
+            .priceNow span:nth-child(3){
+                font-size: 14px;
+            }
+            .priceOld{
+                font-size: 10px;
+            }
+            .priceBid{
+                font-size: 10px;
+            }
+        }
+        @media (min-width: 375px) and (max-width: 414px) {
+            .header span{
+                font-size: 12px;
+            }
+            .goodsInfo{
+                font-size: 12px;
+            }
+            .priceNow span:nth-child(2){
+                font-size: 18px;
             }
             .priceNow span:nth-child(3){
                 font-size: 14px;
