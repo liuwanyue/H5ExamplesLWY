@@ -130,24 +130,24 @@
 
         .content .itemFloor .itemFloorContent {
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
 
         .content .itemFloor .itemFloorContent .itemGoods {
             position: relative;
-            margin-bottom: .15rem;
+            margin-bottom: .2rem;
             border: 1px solid #999999;
             background-color: #ffffff;
         }
 
         .content .itemFloor .itemFloorContent .itemGoods dl {
+            display: flex;
             margin: .1rem;
         }
 
         .content .itemFloor .itemFloorContent .itemGoods dl dt {
-            width: 3.25rem;
-            height: 3.25rem;
+            width: 2rem;
+            height: 2rem;
         }
 
         .content .itemFloor .itemFloorContent .itemGoods dl dt img {
@@ -156,16 +156,23 @@
         }
 
         .content .itemFloor .itemFloorContent .itemGoods dl dd {
-            width: 3.25rem;
-            height: 1.5rem;
+            margin-left: .1rem;
+            width: 4.5rem;
+            height: 100%;
         }
-
+        .content .itemFloor .itemFloorContent .itemGoods dl dd li:nth-child(2) {
+            margin-left: .1rem;
+            width: 4.5rem;
+            height: 1rem;
+            line-height: 1rem;
+            vertical-align: middle;
+        }
         .content .itemFloor .itemFloorContent .itemGoods dl dd .goodsInfoTitle {
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
             overflow: hidden;
-            line-height: .3rem;
+            line-height: .4rem;
             margin-top: .1rem;
             margin-bottom: .1rem;
         }
@@ -183,17 +190,18 @@
         }
 
         .content .itemFloor .itemFloorContent .itemGoods dl dd .priceBid {
-            display: block;
+            display: inline-block;
             margin-top: .1rem;
+            margin-left: .4rem;
             color: #999999;
         }
 
         .content .itemFloor .itemFloorContent .itemGoods .cartIcon {
             position: absolute;
-            width: .5rem;
-            height: .5rem;
-            right: .2rem;
-            bottom: .2rem;
+            width: .6rem;
+            height: .6rem;
+            right: .4rem;
+            bottom: .3rem;
         }
 
         @media (min-width: 750px) {
@@ -210,13 +218,15 @@
             .itemFloorTitle span {
                 font-size: 30px;
             }
-
+            .goodsInfoTitle{
+                font-size: 24px;
+            }
             .goodsInfo {
                 font-size: 24px;
             }
 
             .priceNow span:nth-child(2) {
-                font-size: 32px;
+                font-size: 38px;
             }
 
             .priceNow span:nth-child(3) {
@@ -224,11 +234,11 @@
             }
 
             .priceOld {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             .priceBid {
-                font-size: 20px;
+                font-size: 22px;
             }
         }
 
@@ -246,7 +256,9 @@
             .itemFloorTitle span {
                 font-size: 24px;
             }
-
+            .goodsInfoTitle{
+                font-size: 16px;
+            }
             .goodsInfo {
                 font-size: 12px;
             }
@@ -277,6 +289,9 @@
             }
             .header span {
                 font-size: 12px;
+            }
+            .goodsInfoTitle{
+                font-size: 14px;
             }
             .itemFloorTitle span {
                 font-size: 14px;
@@ -317,15 +332,15 @@
             <li>生活用品</li>
             <li>旅游设备海选</li>
             <li>夏装折扣大促</li>
-            <li>防晒频道</li>
-            <li>冬日暖阳</li>
+            <!--<li>防晒频道</li>
+            <li>冬日暖阳</li>-->
         </ul>
     </div>
     <div class="content">
         <div class="itemFloor">
             <div class="itemFloorTitle">
                 <img src="imgs/toRight.png" alt="">
-                <span>夏日冰啤</span>
+                <span>夏日冰啤冰饮冰饮冰饮</span>
                 <img src="imgs/toLeft.png" alt="">
             </div>
             <div class="itemFloorContent">
@@ -349,9 +364,7 @@
                                         <span>¥</span>
                                         <span>65.00</span>
                                     </div>
-                                </li>
-                                <li>
-                                     <span class="priceBid">
+                                    <span class="priceBid">
                                          5件起批
                                      </span>
                                 </li>
@@ -363,7 +376,6 @@
                              class="cartIcon" alt="">
                     </div>
                 </div>
-
                 <div class="itemGoods">
                     <dl>
                         <dt><img src="imgs/7.jpg" alt=""></dt>
@@ -384,9 +396,7 @@
                                         <span>¥</span>
                                         <span>65.00</span>
                                     </div>
-                                </li>
-                                <li>
-                                     <span class="priceBid">
+                                    <span class="priceBid">
                                          5件起批
                                      </span>
                                 </li>
@@ -417,9 +427,7 @@
                                     <span>¥</span>
                                     <span>65.00</span>
                                 </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
+                                <span class="priceBid">
                                          5件起批
                                      </span>
                             </li>
@@ -450,75 +458,7 @@
                                     <span>¥</span>
                                     <span>65.00</span>
                                 </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
-                                         5件起批
-                                     </span>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
-                <div>
-                    <img src="imgs/cart.jpg"
-                         class="cartIcon" alt="">
-                </div>
-            </div><div class="itemGoods">
-                <dl>
-                    <dt><img src="imgs/7.jpg" alt=""></dt>
-                    <dd>
-                        <ul class="goodsInfo">
-                            <li>
-                                    <span class="goodsInfoTitle">
-                                        【法国原装进口】1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋
-                                    </span>
-                            </li>
-                            <li>
-                                <div class="priceNow">
-                                    <span>¥</span>
-                                    <span>65</span>.
-                                    <span>59</span>
-                                </div>
-                                <div class="priceOld">
-                                    <span>¥</span>
-                                    <span>65.00</span>
-                                </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
-                                         5件起批
-                                     </span>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
-                <div>
-                    <img src="imgs/cart.jpg"
-                         class="cartIcon" alt="">
-                </div>
-            </div><div class="itemGoods">
-                <dl>
-                    <dt><img src="imgs/7.jpg" alt=""></dt>
-                    <dd>
-                        <ul class="goodsInfo">
-                            <li>
-                                    <span class="goodsInfoTitle">
-                                        【法国原装进口】1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋
-                                    </span>
-                            </li>
-                            <li>
-                                <div class="priceNow">
-                                    <span>¥</span>
-                                    <span>65</span>.
-                                    <span>59</span>
-                                </div>
-                                <div class="priceOld">
-                                    <span>¥</span>
-                                    <span>65.00</span>
-                                </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
+                                <span class="priceBid">
                                          5件起批
                                      </span>
                             </li>
@@ -530,12 +470,14 @@
                          class="cartIcon" alt="">
                 </div>
             </div>
+
+
             </div>
         </div>
         <div class="itemFloor">
             <div class="itemFloorTitle">
                 <img src="imgs/toRight.png" alt="">
-                <span>夏日冰啤冰饮</span>
+                <span>夏日冰啤冰饮冰饮冰饮</span>
                 <img src="imgs/toLeft.png" alt="">
             </div>
             <div class="itemFloorContent">
@@ -559,9 +501,7 @@
                                         <span>¥</span>
                                         <span>65.00</span>
                                     </div>
-                                </li>
-                                <li>
-                                     <span class="priceBid">
+                                    <span class="priceBid">
                                          5件起批
                                      </span>
                                 </li>
@@ -573,7 +513,6 @@
                              class="cartIcon" alt="">
                     </div>
                 </div>
-
                 <div class="itemGoods">
                     <dl>
                         <dt><img src="imgs/7.jpg" alt=""></dt>
@@ -594,9 +533,7 @@
                                         <span>¥</span>
                                         <span>65.00</span>
                                     </div>
-                                </li>
-                                <li>
-                                     <span class="priceBid">
+                                    <span class="priceBid">
                                          5件起批
                                      </span>
                                 </li>
@@ -627,9 +564,7 @@
                                     <span>¥</span>
                                     <span>65.00</span>
                                 </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
+                                <span class="priceBid">
                                          5件起批
                                      </span>
                             </li>
@@ -660,75 +595,7 @@
                                     <span>¥</span>
                                     <span>65.00</span>
                                 </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
-                                         5件起批
-                                     </span>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
-                <div>
-                    <img src="imgs/cart.jpg"
-                         class="cartIcon" alt="">
-                </div>
-            </div><div class="itemGoods">
-                <dl>
-                    <dt><img src="imgs/7.jpg" alt=""></dt>
-                    <dd>
-                        <ul class="goodsInfo">
-                            <li>
-                                    <span class="goodsInfoTitle">
-                                        【法国原装进口】1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋
-                                    </span>
-                            </li>
-                            <li>
-                                <div class="priceNow">
-                                    <span>¥</span>
-                                    <span>65</span>.
-                                    <span>59</span>
-                                </div>
-                                <div class="priceOld">
-                                    <span>¥</span>
-                                    <span>65.00</span>
-                                </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
-                                         5件起批
-                                     </span>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
-                <div>
-                    <img src="imgs/cart.jpg"
-                         class="cartIcon" alt="">
-                </div>
-            </div><div class="itemGoods">
-                <dl>
-                    <dt><img src="imgs/7.jpg" alt=""></dt>
-                    <dd>
-                        <ul class="goodsInfo">
-                            <li>
-                                    <span class="goodsInfoTitle">
-                                        【法国原装进口】1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋
-                                    </span>
-                            </li>
-                            <li>
-                                <div class="priceNow">
-                                    <span>¥</span>
-                                    <span>65</span>.
-                                    <span>59</span>
-                                </div>
-                                <div class="priceOld">
-                                    <span>¥</span>
-                                    <span>65.00</span>
-                                </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
+                                <span class="priceBid">
                                          5件起批
                                      </span>
                             </li>
@@ -740,12 +607,14 @@
                          class="cartIcon" alt="">
                 </div>
             </div>
+
+
             </div>
         </div>
         <div class="itemFloor">
             <div class="itemFloorTitle">
                 <img src="imgs/toRight.png" alt="">
-                <span>夏日冰啤冰饮冰</span>
+                <span>夏日冰啤冰饮冰饮冰饮</span>
                 <img src="imgs/toLeft.png" alt="">
             </div>
             <div class="itemFloorContent">
@@ -769,9 +638,7 @@
                                         <span>¥</span>
                                         <span>65.00</span>
                                     </div>
-                                </li>
-                                <li>
-                                     <span class="priceBid">
+                                    <span class="priceBid">
                                          5件起批
                                      </span>
                                 </li>
@@ -783,7 +650,6 @@
                              class="cartIcon" alt="">
                     </div>
                 </div>
-
                 <div class="itemGoods">
                     <dl>
                         <dt><img src="imgs/7.jpg" alt=""></dt>
@@ -804,9 +670,7 @@
                                         <span>¥</span>
                                         <span>65.00</span>
                                     </div>
-                                </li>
-                                <li>
-                                     <span class="priceBid">
+                                    <span class="priceBid">
                                          5件起批
                                      </span>
                                 </li>
@@ -837,9 +701,7 @@
                                     <span>¥</span>
                                     <span>65.00</span>
                                 </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
+                                <span class="priceBid">
                                          5件起批
                                      </span>
                             </li>
@@ -870,75 +732,7 @@
                                     <span>¥</span>
                                     <span>65.00</span>
                                 </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
-                                         5件起批
-                                     </span>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
-                <div>
-                    <img src="imgs/cart.jpg"
-                         class="cartIcon" alt="">
-                </div>
-            </div><div class="itemGoods">
-                <dl>
-                    <dt><img src="imgs/7.jpg" alt=""></dt>
-                    <dd>
-                        <ul class="goodsInfo">
-                            <li>
-                                    <span class="goodsInfoTitle">
-                                        【法国原装进口】1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋
-                                    </span>
-                            </li>
-                            <li>
-                                <div class="priceNow">
-                                    <span>¥</span>
-                                    <span>65</span>.
-                                    <span>59</span>
-                                </div>
-                                <div class="priceOld">
-                                    <span>¥</span>
-                                    <span>65.00</span>
-                                </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
-                                         5件起批
-                                     </span>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
-                <div>
-                    <img src="imgs/cart.jpg"
-                         class="cartIcon" alt="">
-                </div>
-            </div><div class="itemGoods">
-                <dl>
-                    <dt><img src="imgs/7.jpg" alt=""></dt>
-                    <dd>
-                        <ul class="goodsInfo">
-                            <li>
-                                    <span class="goodsInfoTitle">
-                                        【法国原装进口】1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋1664啤酒克伦堡凯旋
-                                    </span>
-                            </li>
-                            <li>
-                                <div class="priceNow">
-                                    <span>¥</span>
-                                    <span>65</span>.
-                                    <span>59</span>
-                                </div>
-                                <div class="priceOld">
-                                    <span>¥</span>
-                                    <span>65.00</span>
-                                </div>
-                            </li>
-                            <li>
-                                     <span class="priceBid">
+                                <span class="priceBid">
                                          5件起批
                                      </span>
                             </li>
@@ -950,6 +744,8 @@
                          class="cartIcon" alt="">
                 </div>
             </div>
+
+
             </div>
         </div>
     </div>
@@ -981,6 +777,7 @@
     function addDynamicClick() {
         let dom = document.getElementById('menuItems');
         let lis = dom.querySelectorAll('#menuItems>li');
+        console.log(lis)
         for (let i = 0; i < lis.length; i++) {
             lis[i].setAttribute("onclick",'drampGroup('+i+')');
 
@@ -995,11 +792,10 @@
     }
     //跳锚点
     function drampGroup(i) {
-        console.log(111);
         document.getElementById("group"+i).scrollIntoView();
     }
-     addDynamicId();
-     addDynamicClick();
+    addDynamicId();
+    addDynamicClick();
 </script>
 </body>
 </html>

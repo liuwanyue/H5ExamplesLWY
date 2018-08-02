@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="load/reset.min.css">
+    <script src="load/adaptive.js"></script>
+    <script src="load/vuejs.min.2.5.16.js"></script>
+
+    <title>促销活动</title>
+    <script>
+        //获取地址栏参数
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        //ajax请求
+        function Ajax(type, url, data, success, failed) {
+            // 创建ajax对象
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject('Microsoft.XMLHTTP')
+            }
+
+            var type = type.toUpperCase();
+            // 用于清除缓存
+            var random = Math.random();
+
+            if (typeof data == 'object') {
+                var str = '';
+                for (var key in data) {
+                    str += key + '=' + data[key] + '&';
+                }
+                data = str.replace(/&$/, '');
+            }
+
+            if (type == 'GET') {
+                if (data) {
+                    xhr.open('GET', url + '?' + data, true);
+                } else {
+                    xhr.open('GET', url + '?t=' + random, true);
+                }
+                xhr.send();
+
+            } else if (type == 'POST') {
+                xhr.open('POST', url, true);
+                // 如果需要像 html 表单那样 POST 数据，使用 setRequestHeader() 来添加 http 头。
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+                //xhr.setRequestHeader("If-Modified-Since","0");  //设置浏览器不使用缓存
+                //xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+                xhr.send(data);
+            }
+
+            // 处理返回数据
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        success(xhr.responseText);
+                    } else {
+                        if (failed) {
+                            failed(xhr.status);
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .header {
+            width: 100%;
+            height: .7rem;
+            background-color: #ffffff;
+            /*垂直水平居中*/
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            background-color: darkslateblue;
+        }
+
+        /*================================================================*/
+        .banner {
+            width: 100%;
+            height: 3rem;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .menu {
+            width: 100%;
+            height: .7rem;
+            background-color: #FFFFFF;
+            overflow-x: auto;
+
+        }
+        .menu ul{
+            display: flex;
+            height: .7rem;
+            line-height: .7rem;
+            /*justify-content: space-between;*/
+            text-align: center;
+            margin-left: .1rem;
+            margin-right: .1rem
+
+        }
+        .menu ul li{
+            flex-shrink:0/*important!!!*/
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        /*================================================================*/
+        .content {
+            width: 100%;
+        }
+
+        .content .itemFloor {
+            margin-top: .4rem;
+            margin-left: .4rem;
+            margin-right: .4rem;
+        }
+
+        .content .itemFloor .itemFloorTitle {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            width: 100%;
+            height: .6rem;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .content .itemFloor .itemFloorTitle img {
+            height: .2rem;
+            align-self: center;
+        }
+
+        .content .itemFloor .itemFloorTitle span {
+            display: inline-block;
+            line-height: .6rem;
+            text-align: center;
+            color: white;
+        }
+
+        .content .itemFloor .itemFloorContent {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods {
+            position: relative;
+            margin-bottom: .15rem;
+            border: 1px solid #999999;
+            background-color: #ffffff;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl {
+            margin: .1rem;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl dt {
+            width: 3.05rem;
+            height: 3.05rem;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl dt img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl dd {
+            width: 3.05rem;
+            height: 1.5rem;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl dd .goodsInfoTitle {
+            display: block;
+            line-height: .3rem;
+            margin-top: .1rem;
+            margin-bottom: .1rem;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl dd .priceNow {
+            display: inline-block;
+            color: orange;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl dd .priceOld {
+            display: inline-block;
+            color: #999999;
+            text-decoration: line-through;
+            margin-left: .2rem;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods dl dd .priceBid {
+            display: block;
+            margin-top: .1rem;
+            color: #999999;
+        }
+
+        .content .itemFloor .itemFloorContent .itemGoods .cartIcon {
+            position: absolute;
+            width: .4rem;
+            height: .4rem;
+            right: .2rem;
+            bottom: .2rem;
+        }
+
+        @media (min-width: 750px) {
+            .header span {
+                font-size: 24px;
+            }
+
+            .itemFloorTitle span {
+                font-size: 24px;
+            }
+
+            .goodsInfo {
+                font-size: 24px;
+            }
+
+            .priceNow span:nth-child(2) {
+                font-size: 32px;
+            }
+
+            .priceNow span:nth-child(3) {
+                font-size: 20px;
+            }
+
+            .priceOld {
+                font-size: 18px;
+            }
+
+            .priceBid {
+                font-size: 20px;
+            }
+        }
+
+        @media (min-width: 640px) and (max-width: 749px) {
+            .header span {
+                font-size: 12px;
+            }
+
+            .goodsInfo {
+                font-size: 12px;
+            }
+
+            .priceNow span:nth-child(2) {
+                font-size: 20px;
+            }
+
+            .priceNow span:nth-child(3) {
+                font-size: 14px;
+            }
+
+            .priceOld {
+                font-size: 10px;
+            }
+
+            .priceBid {
+                font-size: 12px;
+            }
+        }
+
+        @media (min-width: 374px) and (max-width: 415px) {
+            .header span {
+                font-size: 12px;
+            }
+
+            .goodsInfo {
+                font-size: 12px;
+            }
+
+            .priceNow span:nth-child(2) {
+                font-size: 16px;
+            }
+
+            .priceNow span:nth-child(3) {
+                font-size: 12px;
+            }
+
+            .priceOld {
+                font-size: 12px;
+            }
+
+            .priceBid {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper" id="main">
+    <div class="header">
+        <span>activeTwoColumn</span>
+    </div>
+    <div class="banner">
+        <img src="imgs/7.jpg" alt="">
+    </div>
+    <div class="menu">
+        <ul ref="menuItems" id="menuItems">
+            <li v-for="item in menuArr">{{item}}</li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="itemFloor">
+            <div class="itemFloorTitle">
+                <img src="imgs/toRight.png" alt="">
+                <span>夏日冰啤冰饮qqqqqqqq</span>
+                <img src="imgs/toLeft.png" alt="">
+            </div>
+            <div class="itemFloorContent">
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="itemFloor">
+            <div class="itemFloorTitle">
+                <img src="imgs/toRight.png" alt="">
+                <span>夏日冰啤冰饮qqqqqqqq</span>
+                <img src="imgs/toLeft.png" alt="">
+            </div>
+            <div class="itemFloorContent">
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="itemFloor">
+            <div class="itemFloorTitle">
+                <img src="imgs/toRight.png" alt="">
+                <span>夏日冰啤冰饮qqqqqqqq</span>
+                <img src="imgs/toLeft.png" alt="">
+            </div>
+            <div class="itemFloorContent">
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+                <div class="itemGoods">
+                    <dl>
+                        <dt><img src="imgs/7.jpg" alt=""></dt>
+                        <dd>
+                            <ul class="goodsInfo">
+                                <li>
+                                    <span class="goodsInfoTitle">
+                                        【法国原装进口】1664啤酒克伦堡凯旋...
+                                    </span>
+                                </li>
+                                <li>
+                                    <div class="priceNow">
+                                        <span>¥</span>
+                                        <span>65</span>.
+                                        <span>59</span>
+                                    </div>
+                                    <div class="priceOld">
+                                        <span>¥</span>
+                                        <span>65.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                     <span class="priceBid">
+                                         5件起批
+                                     </span>
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <div>
+                        <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"
+                             class="cartIcon" alt="">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let vm = new Vue({
+        el:'#main',
+        data:{
+            urlParam:null,//地址栏获取的参数
+            goodsArr:[],//楼层与楼层下商品
+            menuArr:[],//菜单
+        },
+        created(){
+            this.getMemu();
+            // this.getDatas();
+        },
+        methods:{
+            getMemu(){
+                let arr=['夏日清凉','生活用品','旅游设备','夏装折扣','防晒频道','冬日暖阳'];
+                this.menuArr=arr;
+                /*console.log(this.$refs,"this.$refs.menuItems");
+                if(arr.length<=5){
+                    this.$refs.menuItems.style.textAlign='center';
+                    this.$refs.menuItems.style.justifyContent='space-between';
+                }else{
+
+                }*/
+                let dom = document.getElementById('menuItems');
+                if(arr.length<=5){
+                    dom.style.justifyContent='space-between';
+                }else{
+                    dom.style.flexWrap='nowrap';
+                    dom.querySelector('li').style.width='100px'
+                    console.log(dom.querySelector('Li'),'dom');
+                }
+            },
+            getDatas() {
+                let _this = this;
+                let url = '';
+                let params={}
+                Ajax('post', url, params, function (data) {
+                    _this.goodsArr = JSON.parse(data);
+
+                }, function (error) {
+                    console.log(error);
+                })
+
+            },
+        }
+    })
+</script>
+</body>
+</html>

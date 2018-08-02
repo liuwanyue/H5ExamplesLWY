@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<html>
+<!--<#assign x = 'http://localhost:8093/b2b-app-web/html/'>
+    <#assign xonline = 'http://app-b2b.hivescm.com/app-service-b2b/b2b-app-web/html/'>
+        <#assign xontest = 'http://app-b2b-test.beescm.cn/app-service-b2b/b2b-app-web/html/'>
+            <#assign xdev = 'http://app.hivescm.top/b2b/b2b-app-web/html/'>-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>促销活动</title>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+
+    <#setting number_format="#">
+    <style>
+        @media screen and (min-width: 900px) {
+            html {
+                font-size: 100px;
+            }
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .header {
+            height: 12rem;
+        }
+
+        .all {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .all .header .banner {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .all .content {
+            background: ${activityVo.bgColor};
+            height: 100%;
+            width: 100%;
+        }
+
+        .all .content .evfloor {
+            border-top:.5rem solid rgba(242,241,246,0.4);
+
+            /*padding-top: 1.2rem;*/
+            /*margin-bottom: .3rem;*/
+        }
+
+        .all .content .floor {
+            display: flex;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            /*color: #ff7a01;*/
+            font-size: .9rem;
+            font-weight: 600;
+
+            color: #DD3333;
+
+            margin-bottom: .5rem;
+            /*background: rgba(0, 0, 0, 0.1);*/
+            margin: 0px 1rem;
+            /*  filter: alpha(opacity=20);
+              opacity: 0.2;
+              !*background: url("http://test-1254060329.costj.myqcloud.com/50e35d9de2184addba5417c9996d5b59.png") center center no-repeat;*!
+              background-size: 19rem 2rem;
+              background-color: #000000;*/
+        }
+
+        .all .content .floor:before{
+            content: "———";
+            color: #DD3333;
+            font-size: .36rem;
+            height: 1rem;
+            width: 2rem;
+            line-height: 1rem;
+            text-align: center;
+
+        }
+        .all .content .floor:after{
+            content: "———";
+            color: #DD3333;
+            font-size: .36rem;
+            height: 1rem;
+            width: 2rem;
+            line-height: 1rem;
+            text-align: center;
+        }
+        .all .content .floor .floor-div {
+            width:  100%;
+            color: #fff;
+        }
+
+        .all .content .floor .floor-div span {
+            display:  block;
+            width:  100%;
+            color:   #fff;
+            /*opacity: 0.9;*/
+        }
+
+        .all .content .evfloor .floor-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            flex-grow: 1;
+            flex-direction: row;
+            margin: 0 1rem;
+            /*margin-top: .5rem;*/
+        }
+
+        .all .content .item {
+            /*float: left;*/
+            position: relative;
+            width: 100%;
+            height: 6rem;
+            /*margin-top: .3rem;*/
+            background: white;
+            margin-right: 0;
+            border-bottom: 2px solid #F2F1F6;
+            /*padding-bottom: .15rem;*/
+            /*margin-bottom: .6rem;*/
+            /*margin-bottom: .8rem;*/
+            overflow: hidden;
+        }
+        .all .content .item .recommendGoods{
+            width: 1.08rem;
+            height: .68rem;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .all .content .item .recommendGoods .arrow {
+            position: absolute;
+            left: 0;
+            top: 0;
+            border: .68rem solid #DD3333;
+            border-right:.4rem solid rgba(0,0,0,0);
+            width: 1.08rem;
+            height: 0;
+        }
+        .all .content .item .recommendGoods span{
+            position: absolute;
+            left: .1rem;
+            top: .3rem;
+            display: inline-block;
+            font-size: .7rem;
+            height: .68rem;
+            width: 1.58rem;
+            line-height: .68rem;
+            text-align: center;
+            color: #fff;
+        }
+        .all .content .item .goodsimg {
+            float: left;
+            height: 6.3rem;
+            overflow: hidden;
+            width: 6.3rem;
+        }
+
+        .all .content .item .goodsimg img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .all .content .item .goodsContent {
+            float: left;
+            overflow: hidden;
+            height: 6rem;
+            width: 13.45rem;
+        }
+
+        .all .content .item .goodsContent span {
+            padding: .1rem auto .2rem .4rem;
+        }
+
+        .all .content .item .goodsContent .flP {
+
+        }
+
+        .all .content .item .goodsContent .flP .goodsname {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            margin: 0.3rem 0.3rem 0.8rem 0.3rem;
+            font-size: 0.8rem;
+            line-height: 1rem;
+            min-height: 2rem;
+            max-height: 2rem;
+            width: 90%;
+        }
+
+        .all .content .item .goodsContent .price {
+            height: 2.7rem;
+        }
+
+        .all .content .item .goodsContent .cart {
+            position: absolute;
+            width: 1.24rem;
+            height: 1.24rem;
+            /*right: -.03rem;*/
+            right: .8rem;
+            z-index: 5;
+            bottom: .8rem;
+        }
+
+        .all .content .item .goodsContent .pirt {
+            height: 2.2rem;
+            position: relative;
+            /*margin-left: 0.26666667rem;*/
+            padding-bottom: 0;
+            margin-bottom: 0;
+            height: 2.8rem;
+        }
+
+        .all .content .item .pirt p {
+            line-height: 1.17333333rem;
+            font-size: .8rem;
+        }
+
+        .all .content .item .pirt span.big {
+            font-size: 1rem;
+            line-height: 2.6;
+        }
+        .menu{
+            display: flex;
+            width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+            border:1px solid #999;
+            /*background-color:#333;
+            background-color:rgba(153,153,153,0.3);*/
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .menu ul{
+            font-size: 0;
+        }
+        .menu li{
+            height: 2rem;
+            width: 4.5rem;
+            font-size: .8rem;
+            line-height: 2rem;
+            /*border-left:1px solid #999;
+            border-right:1px solid #999;*/
+            text-align: center;
+            vertical-align: middle;
+            display: inline-block;
+            flex-shrink:0
+        }
+        a{
+            text-decoration:none;
+            color:#333;
+        }
+        #tab .active{
+            color: #DD3333;
+            border-bottom: 4px solid #DD3333;
+        }
+        .car {
+            position: fixed;
+            right: .68rem;
+            bottom: 2.68rem;
+            z-index: 10;
+        }
+
+        .car p {
+            width: 2.7rem;
+            height: 2.7rem;
+            background: rgba(0, 0, 0,0.40);
+            border-radius: 50%;
+        }
+
+        .car .countStr {
+            position: absolute;
+            width: .8rem;
+            height: .8rem;
+            right: .3rem;
+            top: .3rem;
+            text-align: center;
+            line-height: .8rem;
+            display: block;
+            font-size: .55rem;
+
+            background: #DD3333;
+            color: #FFFFFF;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .car p img {
+            display: block;
+            width: 50%;
+            margin: 0 auto;
+            padding-top: .6rem;
+        }
+        .up {
+            position: fixed;
+            right: .68rem;
+            bottom: .4rem;
+            z-index: 10;
+        }
+
+        .up p {
+            width: 2rem;
+            height: 2rem;
+            background: rgba(255, 255, 255,0.40);
+            border: 1px solid #9d9d9d;
+            border-radius: 50%;
+        }
+        .up p img {
+            display: block;
+            width: 50%;
+            margin: 0 auto;
+            padding-top: .4rem;
+        }
+    </style>
+
+
+    <script>
+        (function (win) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var tid;
+
+            function refreshRem() {
+                var width = docEl.getBoundingClientRect().width;
+                if (width > 540) { // 最大宽度
+                    width = 540;
+                }
+                var rem = width / 12;
+                docEl.style.fontSize = rem + 'px';
+            }
+
+            win.addEventListener('resize', function () {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            refreshRem();
+
+        })(window);
+
+        // function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
+        //     window.jsObj.joinShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
+        // }
+
+        function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
+            var u = navigator.userAgent;
+            if(window.__wxjs_environment === 'miniprogram'){ //小程序
+                console.log("xiaochengxu")
+                wx.miniProgram.navigateTo({url: '/pages/details/details?skuId=' + skuId});
+            }else if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                window.jsObj.joinShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
+            } else if (u.indexOf('iPhone') > -1) {
+                var obj={
+                    'skuIdKey':skuId,
+                    'dealerIdKey':dealerId,
+                    'countKey':count,
+                    'unitKey':unit,
+                    'integerZeroConvertKey':integerZeroConvert
+                }
+                window.webkit.messageHandlers.addGoodsCartByWeb.postMessage(obj)
+            }else{
+                alert('设备不支持');
+            }
+        }
+
+
+        function toDetil(skuId) {
+            window.jsObj.enterGoodsDetail(skuId);
+        }
+    </script>
+</head>
+<body>
+<div class="all">
+    <div class="header">
+        <#if activityVo.bannerUrl??>
+        <img src="${activityVo.bannerUrl}" class="banner"/>
+        <#else>
+        <img src="http://test-1254060329.costj.myqcloud.com/702d1e29accd4cb48a027aa5dbf59da7.png" class="banner"/>
+    </#if>
+</div>
+<div class="content">
+    <div class="menu">
+        <ul id="tab">
+            <#list activityVo.activityGroups as groups>
+            <li><span>${groups.title!}</span></li>
+        </#list>
+        </ul>
+    </div>
+    <#list activityVo.activityGroups as groups>
+    <div class="evfloor">
+        <div class="floor">
+            <div class="floor-div">
+                <span>${groups.title!}</span>
+            </div>
+
+        </div>
+        <div class="floor-item">
+            <#if (groups.goods! ? size > 0)>
+            <#list groups.goods as goods>
+            <div class="item">
+                <div class="item">
+                    <div class="recommendGoods">
+                        <div class="arrow"></div>
+                        <span>推荐</span>
+                    </div>
+                    <div class="goodsimg" onclick="toDetil('${goods.skuId}')">
+                        <img src="${goods.picsUrl}"/>
+                    </div>
+                    <div class="goodsContent">
+                        <p class="flP"><span class="goodsname">${goods.goodsName}</span></p>
+                        <div class="pirt">
+                            <p><span style="color:#D81722"><span>￥</span><span
+                                    class="big">${goods.dealerName}</span></span>
+                                <img src="http://b2b-static-cdn.newbeescm.com/image/shppingcarred.png"
+                                     class="cart"
+                                     onclick="toCart('${goods.skuId}',${goods.dealerId},${goods.minimumOrderQuantity},'${goods.quantityUnit}','${goods.integerZeroConvert}')"/>
+                                <#--<img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png"-->
+                                <#--class="cart" onclick="toCart(${goods.skuId})"/>-->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </#list>
+        </#if>
+    </div>
+</div>
+</#list>
+<div class="car">
+    <p>
+        <span class="countStr">23</span>
+        <img src="http://b2b-static-cdn.newbeescm.com/image/shoppingw.png" @click="toLinkCart" alt="">
+        <!--跳转到购物车页-->
+    </p>
+</div>
+<div class="up">
+    <p>
+        <a href="#top"><img src="http://b2b-static-cdn.newbeescm.com/image/arrowon.png" alt=""></a>
+
+    </p>
+</div>
+<div class="all">
+    <div class="header" id="top">--------------加id="top"
+        <img src="http://test-1254060329.costj.myqcloud.com/702d1e29accd4cb48a027aa5dbf59da7.png" class="banner">
+    </div>
+</div>
+</div>
+<script>
+    //动态设置ID
+    function addDynamicId(){
+        var floors= document.getElementsByClassName('evfloor');
+        for (var i = 0; i < floors.length; i++) {
+            var obj = floors[i].setAttribute("id",'group'+i);
+        }
+    }
+    //动态设置onclick方法
+    function addDynamicClick() {
+        var lis= document.getElementsByTagName('li');
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].setAttribute("onclick",'drampGroup('+i+')');
+
+            lis[i].index = i
+            lis[i].onclick = function () {
+                for (var j = 0; j < lis.length; j++) {
+                    lis[j].className = ''
+                }
+                lis[this.index].className = 'active';
+            }
+        }
+    }
+    //跳锚点
+    function drampGroup(i) {
+        document.getElementById("group"+i).scrollIntoView();
+    }
+    addDynamicId();
+    addDynamicClick();
+</script>
+</body>
+</html>
