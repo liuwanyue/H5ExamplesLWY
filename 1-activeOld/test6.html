@@ -1,0 +1,461 @@
+<html style="font-size: 45px;"><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+    <!---->
+
+
+    <meta charset="UTF-8">
+    <title>促销活动</title>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+
+    <style>
+        @media screen and (min-width: 900px) {
+            html {
+                font-size: 100px;
+            }
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .header {
+            height: 12rem;
+        }
+
+        .all {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .all .header .banner {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .all .content {
+            background: #68DC36;
+            height: 100%;
+            width: 100%;
+        }
+
+        .all .content .evfloor {
+            padding-top: 1.2rem;
+            /*margin-bottom: .3rem;*/
+        }
+
+        .all .content .floor {
+            display: flex;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            /*color: #ff7a01;*/
+            font-weight: 700;
+            text-align: center;
+
+            margin-bottom: .5rem;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0px 1rem;
+            /*  filter: alpha(opacity=20);
+              opacity: 0.2;
+              !*background: url("http://test-1254060329.costj.myqcloud.com/50e35d9de2184addba5417c9996d5b59.png") center center no-repeat;*!
+              background-size: 19rem 2rem;
+              background-color: #000000;*/
+        }
+
+        .all .content .floor .floor-div {
+            width: &nbsp;100%;
+            color: #fff;
+        }
+
+        .all .content .floor .floor-div span {
+            display: &nbsp;block;
+            width: &nbsp;100%;
+            color: &nbsp; #fff;
+            /*opacity:&nbsp;0.9;*/
+        }
+
+        .all .content .evfloor .floor-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            flex-grow: 1;
+            flex-direction: row;
+            margin: 0 1rem;
+            margin-top: .5rem;
+        }
+
+        .all .content .item {
+            /*float: left;*/
+            position: relative;
+            /*width: 100%;*/
+            height: 6rem;
+            margin-top: .3rem;
+            background: white;
+            /*padding-bottom: .15rem;*/
+            /*margin-bottom: .6rem;*/
+            margin-bottom: .8rem;
+            overflow: hidden;
+        }
+
+        .all .content .item .goodsimg {
+            float: left;
+            height: 6.3rem;
+            overflow: hidden;
+            width: 6.3rem;
+        }
+
+        .all .content .item .goodsimg img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .all .content .item .goodsContent {
+            float: left;
+            overflow: hidden;
+            height: 6rem;
+            width: 13.45rem;
+        }
+
+        .all .content .item .goodsContent span {
+            padding: .1rem auto .2rem .4rem;
+        }
+
+        .all .content .item .goodsContent .flP {
+
+        }
+
+        .all .content .item .goodsContent .flP .goodsname {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            margin: 0.3rem 0.3rem 0.8rem 0.3rem;
+            font-size: 0.8rem;
+            line-height: 1rem;
+            min-height: 2rem;
+            max-height: 2rem;
+            width: 90%;
+        }
+
+        .all .content .item .goodsContent .price {
+            height: 2.7rem;
+        }
+
+        .all .content .item .goodsContent .cart {
+            position: absolute;
+            width: 22%;
+            right: -.03rem;
+            z-index: 5;
+            bottom: .45rem;
+        }
+
+        .all .content .item .goodsContent .pirt {
+            height: 2.2rem;
+            position: relative;
+            /*margin-left: 0.26666667rem;*/
+            padding-bottom: 0;
+            margin-bottom: 0;
+            height: 2.8rem;
+        }
+
+        .all .content .item .pirt p {
+            line-height: 1.17333333rem;
+            font-size: .8rem;
+        }
+
+        .all .content .item .pirt span.big {
+            font-size: 1rem;
+            line-height: 2.6;
+        }
+        .menu{
+            display: flex;
+            width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+            border:1px solid #999;
+            background-color:#333;
+            background-color:rgba(153,153,153,0.3);
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .menu ul{
+            font-size: 0;
+        }
+        .menu li{
+            height: 2rem;
+            width: 4.5rem;
+            font-size: .8rem;
+            line-height: 2rem;
+            border-left:1px solid #999;
+            border-right:1px solid #999;
+            text-align: center;
+            vertical-align: middle;
+            display: inline-block;
+            flex-shrink:0
+        }
+        a{
+            text-decoration:none;
+            color:#333;
+        }
+        .car {
+            position: fixed;
+            right: .68rem;
+            bottom: 1.5rem;
+            z-index: 10;
+        }
+
+        .car p {
+            width: 2.7rem;
+            height: 2.7rem;
+            background: rgba(0, 0, 0,0.40);
+            border-radius: 50%;
+        }
+
+        .car .countStr {
+            position: absolute;
+            width: .8rem;
+            height: .8rem;
+            right: .3rem;
+            top: .3rem;
+            text-align: center;
+            line-height: .8rem;
+            display: block;
+            font-size: .55rem;
+
+            background: #DD3333;
+            color: #FFFFFF;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .car p img {
+            display: block;
+            width: 50%;
+            margin: 0 auto;
+            padding-top: .6rem;
+        }
+        .up {
+            position: fixed;
+            right: .68rem;
+            bottom: .4rem;
+            z-index: 10;
+        }
+
+        .up p {
+            width: 2rem;
+            height: 2rem;
+            background: rgba(255, 255, 255,0.40);
+            border-radius: 50%;
+        }
+        .up p img {
+            display: block;
+            width: 50%;
+            margin: 0 auto;
+            padding-top: .4rem;
+        }
+    </style>
+
+
+    <script>
+        (function (win) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var tid;
+
+            function refreshRem() {
+                var width = docEl.getBoundingClientRect().width;
+                if (width > 540) { // 最大宽度
+                    width = 540;
+                }
+                var rem = width / 12;
+                docEl.style.fontSize = rem + 'px';
+            }
+
+            win.addEventListener('resize', function () {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            refreshRem();
+
+        })(window);
+
+        // function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
+        //     window.jsObj.joinShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
+        // }
+
+        function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
+            var u = navigator.userAgent;
+            if(window.__wxjs_environment === 'miniprogram'){ //小程序
+                console.log("xiaochengxu")
+                wx.miniProgram.navigateTo({url: '/pages/details/details?skuId=' + skuId});
+            }else if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+//                window.jsObj.joinShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
+                window.jsObj.getGoodsNumInCart(skuId, dealerId, count, unit, integerZeroConvert);
+            } else if (u.indexOf('iPhone') > -1) {
+                var obj={
+                    'skuIdKey':skuId,
+                    'dealerIdKey':dealerId,
+                    'countKey':count,
+                    'unitKey':unit,
+                    'integerZeroConvertKey':integerZeroConvert
+                }
+                window.webkit.messageHandlers.addGoodsCartByWeb.postMessage(obj)
+            }else{
+                alert('设备不支持');
+            }
+        }
+        function toCartList() {
+            var u = navigator.userAgent;
+            if(window.__wxjs_environment === 'miniprogram'){ //小程序
+                console.log("xiaochengxu")
+//                wx.miniProgram.navigateTo({url: '/pages/details/details?skuId=' + skuId});
+            }else if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                window.jsObj.enterShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
+            } else if (u.indexOf('iPhone') > -1) {
+                var obj={
+                    'skuIdKey':skuId,
+                    'dealerIdKey':dealerId,
+                    'countKey':count,
+                    'unitKey':unit,
+                    'integerZeroConvertKey':integerZeroConvert
+                }
+//                window.webkit.messageHandlers.addGoodsCartByWeb.postMessage(obj)
+            }else{
+                alert('设备不支持');
+            }
+        }
+
+        function toDetil(skuId) {
+            window.jsObj.enterGoodsDetail(skuId);
+        }
+    </script>
+</head>
+<body>
+<div class="all">
+    <div class="header">
+        <img src="http://test-1254060329.costj.myqcloud.com/702d1e29accd4cb48a027aa5dbf59da7.png" class="banner">
+    </div>
+    <div class="content">
+        <!--<div class="menu">
+            <ul>
+                <li onclick="drampGroup(0)"><span>111</span></li>
+                <li onclick="drampGroup(1)"><span>满200减20元</span></li>
+            </ul>
+        </div>-->
+        <div class="evfloor" id="group0">
+            <div class="floor">
+                <div class="floor-div">
+                    <span>111</span>
+                </div>
+
+            </div>
+            <div class="floor-item">
+                <div class="item">
+                    <div class="goodsimg" onclick="toDetil('12346266')">
+                        <img src="http://testbucket-1254060329.costj.myqcloud.com/product/18f0786996154bf3b5b3408b73ba1a91.jpg">
+                    </div>
+                    <div class="goodsContent">
+                        <p class="flP"><span class="goodsname">伊利纯牛奶 盒装*红枣</span></p>
+                        <div class="pirt">
+                            <p><span style="color:#D81722"><span>￥</span><span class="big">85.00</span></span>
+                                <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png" class="cart" onclick="toCart('12346266',426,1,'箱','1箱')">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="goodsimg" onclick="toDetil('12346287')">
+                        <img src="http://testbucket-1254060329.costj.myqcloud.com/product/4fa54e3cf100484cb9780ee761b42237.jpg">
+                    </div>
+                    <div class="goodsContent">
+                        <p class="flP"><span class="goodsname">乱七八糟牛奶luanqibazaoniunai乱七八糟牛奶luanqibazaoniunai 盒装*燕麦</span></p>
+                        <div class="pirt">
+                            <p><span style="color:#D81722"><span>￥</span><span class="big">90.00</span></span>
+                                <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png" class="cart" onclick="toCart('12346287',426,5,'包','1包=12箱')">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="evfloor" id="group1">
+            <div class="floor">
+                <div class="floor-div">
+                    <span>满200减20元</span>
+                </div>
+
+            </div>
+            <div class="floor-item">
+                <div class="item">
+                    <div class="goodsimg" onclick="toDetil('12346289')">
+                        <img src="http://testbucket-1254060329.costj.myqcloud.com/product/4fa54e3cf100484cb9780ee761b42237.jpg">
+                    </div>
+                    <div class="goodsContent">
+                        <p class="flP"><span class="goodsname">乱七八糟牛奶luanqibazaoniunai乱七八糟牛奶luanqibazaoniunai 盒装*果仁</span></p>
+                        <div class="pirt">
+                            <p><span style="color:#D81722"><span>￥</span><span class="big">90.00</span></span>
+                                <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png" class="cart" onclick="toCart('12346289',426,5,'包','1包=12箱')">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="goodsimg" onclick="toDetil('12346287')">
+                        <img src="http://testbucket-1254060329.costj.myqcloud.com/product/4fa54e3cf100484cb9780ee761b42237.jpg">
+                    </div>
+                    <div class="goodsContent">
+                        <p class="flP"><span class="goodsname">乱七八糟牛奶luanqibazaoniunai乱七八糟牛奶luanqibazaoniunai 盒装*燕麦</span></p>
+                        <div class="pirt">
+                            <p><span style="color:#D81722"><span>￥</span><span class="big">90.00</span></span>
+                                <img src="http://test-1254060329.costj.myqcloud.com/2f946769c7314962b63134a3d11802fd.png" class="cart" onclick="toCart('12346287',426,5,'包','1包=12箱')">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="car">
+            <p>
+                <span class="countStr">23</span>
+                <img src="http://b2b-static-cdn.newbeescm.com/image/shoppingcar.png" @click="toLinkCart" alt="">
+                <!--跳转到购物车页-->
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    //动态设置ID
+    /*function addDynamicId(){
+        var floors= document.getElementsByClassName('evfloor');
+        for (var i = 0; i < floors.length; i++) {
+            var obj = floors[i].setAttribute("id",'group'+i);
+        }
+    }
+    //动态设置onclick方法
+    function addDynamicClick() {
+        var lis= document.getElementsByTagName('li');
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].setAttribute("onclick",'drampGroup('+i+')');
+        }
+    }*/
+    /*//跳锚点
+    function drampGroup(i) {
+        document.getElementById("group"+i).scrollIntoView();
+    }*/
+   /* addDynamicId();
+    addDynamicClick();*/
+</script>
+
+</body></html>

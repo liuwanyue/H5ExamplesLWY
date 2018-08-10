@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在输入框内不同数字显示不同颜色</title>
+</head>
+<body>
+<script language="javascript" type="text/javascript">
+    let Arr = new Array();
+
+    function keychick() {
+        if (event.keyCode == 49) {
+            document.getElementById('div2').innerHTML += "<font color=#FF0000>1</font>";
+            Arr.push("<font color=#FF0000>1</font>")
+        }
+        if (event.keyCode == 50) {
+            document.getElementById('div2').innerHTML += "<font color=#000000>2</font>";
+            Arr.push("<font color=#000000>2</font>")
+        }
+        if (event.keyCode == 51) {
+            document.getElementById('div2').innerHTML += "<font color=#FF566F>3</font>";
+            Arr.push("<font color=#FF566F>3</font>")
+        }
+        if (event.keyCode == 52) {
+            document.getElementById('div2').innerHTML += "<font color=#FBB000>4</font>";
+            Arr.push("<font color=#FBB000>4</font>")
+        }
+        if (event.keyCode == 53) {
+            document.getElementById('div2').innerHTML += "<font color=#00B000>5</font>";
+            Arr.push("<font color=#00B000>5</font>")
+        }
+        if (event.keyCode == 54) {
+            document.getElementById('div2').innerHTML += "<font color=#bbcc00>6</font>";
+            Arr.push("<font color=#bbcc00>6</font>")
+        }
+        if (event.keyCode == 55) {
+            document.getElementById('div2').innerHTML += "<font color=#ccbb00>7</font>";
+            Arr.push("<font color=#ccbb00>7</font>")
+        }
+        if (event.keyCode == 56) {
+            document.getElementById('div2').innerHTML += "<font color=#Ffbc00>8</font>";
+            Arr.push("<font color=#Ffbc00>8</font>")
+        }
+        if (event.keyCode == 57) {
+            document.getElementById('div2').innerHTML += "<font color=#FF0EE0>9</font>";
+            Arr.push("<font color=#FF0EE0>9</font>")
+        }
+        if (event.keyCode == 48) {
+            document.getElementById('div2').innerHTML += "<font color=#0ABC50>0</font>";
+            Arr.push("<font color=#0ABC50>0</font>")
+        }
+        if (event.keyCode == 8) {
+            Arr.pop();
+            let obj = new Array(Arr);
+            let o = Arr.toString();
+            document.getElementById('div2').innerHTML = o.replace(/,/g, "")
+        }
+    }
+</script>
+<!--样式-->
+<style>
+    <!--
+    #input1 {
+        color: #FF0000;
+        width: 169px;
+        height: 17px;
+        z-index: 1;
+        left: 219px;
+        top: 186px;
+    }
+
+    #div1 {
+        position: absolute;
+        height: 17px;
+        z-index: 1;
+        left: 219px;
+        top: 186px;
+    }
+
+    #div2 {
+        position: absolute;
+        height: 17px;
+        z-index: 1;
+        left: 219px;
+        top: 186px;
+    }
+
+    -->
+</style>
+
+
+<!--body-->
+<div id="div1"><input type="text" name="text1" id="input1" onkeydown="keychick()" value=""
+                      onkeypress="return event.keyCode>=48&&event.keyCode<=57" onpaste="return false"
+                      ondragenter="return false" style="ime-mode:disabled; color:#FFFFFF; font-size:16px"/></div>
+<div id="div2"></div>
+</body>
+</html>
