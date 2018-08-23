@@ -19,19 +19,23 @@
                 margin: 0;
             }
 
-            .header {
-                height: 12rem;
+            .header1 {
+                height: 10.5rem;
+                overflow: hidden;
             }
-
+            .header2 {
+            }
             .all {
                 position: relative;
                 overflow: hidden;
             }
-
-            .all .header .banner {
+            .all .header1 .banner {
                 display: block;
                 width: 100%;
-                height: 100%;
+            }
+            .all .header2 .banner {
+                display: block;
+                width: 100%;
             }
 
             .all .content {
@@ -335,7 +339,6 @@
                 refreshRem();
 
             })(window);
-
             // function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
             //     window.jsObj.joinShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
             // }
@@ -366,16 +369,29 @@
             // }
 
             function toDetil(skuId) {
-                window.jsObj.enterGoodsDetail(skuId);
+                alert('进toDetil方法')
+                var u = navigator.userAgent;
+                if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                    window.jsObj.enterGoodsDetail(skuId);
+                } else if (u.indexOf('iPhone') > -1) {
+                    alert('进iPhone toDetil方法')
+                    window.webkit.messageHandlers.enterGoodsDetail.postMessage(skuId)
+                }else{
+                    alert('设备不支持');
+                }
             }
+
         </script>
     </head>
 <body>
 <div class="all">
-    <div class="header" id="top1">
-        <img src="http://test-1254060329.costj.myqcloud.com/702d1e29accd4cb48a027aa5dbf59da7.png" class="banner">
+    <div class="header1" id="top1" style="display: none">
+        <img src="./img/WechatIMG37.png" class="banner">
     </div>
-    <div class="content">
+    <div class="header2" id="top2" style="display: none">
+        <img src="./img/WechatIMG37.png" class="banner">
+    </div>
+    <div class="content" id="content">
         <div class="menu">
             <ul ul id="tab">
                 <li onclick="drampGroup(0)"><span>分组2</span></li>
@@ -411,11 +427,11 @@
                             <p class="oldPri">
                                 <span><span>￥</span><span>65.59</span></span>
                             </p>
-                            <p><span style="color:#D81722"><span>￥</span><span class="big">1.00</span></span>
+                           <p><span style="color:#D81722"><span>￥</span><span class="big">1.00</span></span>
                                 <img src="http://b2b-static-cdn.newbeescm.com/image/shppingcarred.png" class="cart" onclick="toCart('574',390,1,'个','1箱=10包=100个')">
                             </p>
                         </div>
-                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -511,6 +527,10 @@
     }
     addDynamicId();
     addDynamicClick();
+
+
+
+
 </script>
 
 </body></html></title>
@@ -518,4 +538,25 @@
 <body>
 
 </body>
+<script>
+    window.onload=function () {
+        //获取地址栏参数
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+        var banner = GetQueryString('banner');
+        var dom;
+        if(banner==1){
+            dom = document.getElementById('top2')
+            dom.style.display=''
+
+        }else if(banner==2) {
+            dom = document.getElementById('top1')
+            dom.style.display=''
+        }
+    }
+</script>
 </html>

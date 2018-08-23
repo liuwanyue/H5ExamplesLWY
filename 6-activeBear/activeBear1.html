@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
+            var u = navigator.userAgent;
+            if(window.__wxjs_environment === 'miniprogram'){ //小程序
+                console.log("xiaochengxu")
+                wx.miniProgram.navigateTo({url: '/pages/details/details?skuId=' + skuId});
+            }else if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                window.jsObj.joinShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
+            } else if (u.indexOf('iPhone') > -1) {
+                var obj={
+                    'skuIdKey':skuId,
+                    'dealerIdKey':dealerId,
+                    'countKey':count,
+                    'unitKey':unit,
+                    'integerZeroConvertKey':integerZeroConvert
+                }
+                window.webkit.messageHandlers.addGoodsCartByWeb.postMessage(obj)
+            }else{
+                alert('设备不支持');
+            }
+        }
+        function toDetil(skuId) {
+            var u = navigator.userAgent;
+            if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                window.jsObj.enterGoodsDetail(skuId);
+            } else if (u.indexOf('iPhone') > -1) {
+                window.webkit.messageHandlers.enterGoodsDetail.postMessage(skuId)
+            }else{
+                alert('设备不支持');
+            }
+        }
+    </script>
+    <style>
+       /* div span{
+            display: block;
+            width: 100%;
+            height: 100px;
+            border: 1px solid #FFFFFF;
+            background: lightgreen;
+        }
+        .item{
+            position: relative;
+        }
+        .item .cart{
+            position: absolute;
+            right: 20px;
+            bottom: 30px;
+            width: 60px;
+            height: 30px;
+            background-color: pink;
+        }*/
+    </style>
+</head>
+<body>
+<div>
+<div class="item">
+    <span onclick="toDetil('12346266')">500ml山水啤酒醉美银罐30元/箱，4赠1本品</span>
+    <span class="cart" onclick="toCart('12346266')">加购物车</span>
+</div>
+<div class="item">
+    <span onclick="toDetil('12346266')">青岛啤酒500经典听60元/箱，5赠2箱500ml醉美银罐</span>
+    <span class="cart" onclick="toCart('12346266')">加购物车</span>
+</div>
+<div class="item">
+    <span onclick="toDetil('12346266')">崂山啤酒330*24罐啤60元/箱，3赠1本品</span>
+    <span class="cart" onclick="toCart('12346266')">加购物车</span>
+</div>
+<div class="item">
+    <span onclick="toDetil('12346266')">崂山啤酒330*24罐啤60元/箱，3赠1本品</span>
+    <span class="cart" onclick="toCart('12346266')">加购物车</span>
+</div>
+</div>
+</body>
+<script>
+    //ajax请求
+    function Ajax(type, url, data, success, failed) {
+        // 创建ajax对象
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else {
+            xhr = new ActiveXObject('Microsoft.XMLHTTP')
+        }
+
+        var type = type.toUpperCase();
+        // 用于清除缓存
+        var random = Math.random();
+
+        if (typeof data == 'object') {
+            var str = '';
+            for (var key in data) {
+                str += key + '=' + data[key] + '&';
+            }
+            data = str.replace(/&$/, '');
+        }
+
+        if (type == 'GET') {
+            if (data) {
+                xhr.open('GET', url + '?' + data, true);
+            } else {
+                xhr.open('GET', url + '?t=' + random, true);
+            }
+            xhr.send();
+
+        } else if (type == 'POST') {
+            xhr.open('POST', url, true);
+            // 如果需要像 html 表单那样 POST 数据，使用 setRequestHeader() 来添加 http 头。
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+            //xhr.setRequestHeader("If-Modified-Since","0");  //设置浏览器不使用缓存
+            //xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+            xhr.send(data);
+        }
+
+        // 处理返回数据
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    success(xhr.responseText);
+                } else {
+                    if (failed) {
+                        failed(xhr.status);
+                    }
+                }
+            }
+        }
+    }
+</script>
+</html>
