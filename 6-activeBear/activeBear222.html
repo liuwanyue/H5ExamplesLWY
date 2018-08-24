@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青岛啤酒，夏不为利</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
     <script>
         function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
@@ -38,64 +38,97 @@
         }
     </script>
     <style>
-        *{
-            padding: 0;
+        html {
+            width: 100%;
+            height: 100%; 
             margin: 0;
+            padding: 0;
+            text-align:center;
+            font-size: 16px;
+            /* overflow:hidden; */
+            background-color: #043005;
         }
-        body{
+         body {
             width: 100%;
-
+            margin: 0;
+            padding: 0;
         }
-        .content{
+        #link {
             width: 100%;
-            height: 100%;
-        }
-        img{
-            display: block;
-        }
-        img:before{
-            content: "";
-            font-size: 0;
-        }
-        img:after{
-            content: "";
-            font-size: 0;
-        }
-        .goods{
             position: relative;
-            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .link-img {
             width: 100%;
+            position: relative;
         }
-        .goods .info{
-            display: block;
-        }
-        .goods .cart{
-            display: block;
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-        }
+     #link a {
+        filter:alpha(opacity=50);
+        -moz-opacity:0.5;opacity: 0.5;
+     }  
+#link a {
+        position:absolute;
+        display:block;
+        text-indent:-9999px;
+        text-decoration:none;
+        opacity: 0.7;
+        /* 图片地址 */
+    }
+#link a.on1 {
+    width: 80%;
+    height: 12rem;
+    left: 2.5rem;
+    top: 26rem;
+    /* background-color: plum; */
+    } 
 
+#link a.on2 {
+    width: 80%;
+    height: 9rem;
+    left: 2rem;
+    top: 39.4rem;
+    /* background-color: pink; */
+    }
+#link a.on3 {
+    width: 80%;
+    height: 8rem;
+    left: 2rem;
+    top: 55rem;
+    /* background-color: palegreen; */
+        }  
+#link a.on4 {
+    width: 11rem;
+    height: 5rem;
+    }
+    #link a.on4-1 {
+        left: 10rem;
+        top: 32rem;
+        /* background: darkblue; */
+    }
+    #link a.on4-2 {
+        left: 0rem;
+        top: 46rem;
+        /* background: darkblue; */
+    }
+    #link a.on4-3 {
+        left: 9rem;
+        top: 59rem;
+        /* background: darkblue; */
+    }
     </style>
 </head>
 <body>
-<div class="content">
-    <img src="imgs/tu1.png" alt="">
-    <img src="imgs/tu2.png" alt="">
-    <div class="goods">
-        <img class="info" src="imgs/tu3.png" alt="">
-        <img class="cart" src="imgs/加入购物车1.png" alt="">
-    </div>
-    <div class="goods">
-        <img class="info" src="imgs/tu4.png" alt="">
-        <img class="cart" src="imgs/加入购物车1.png" alt="">
-    </div>
-    <div class="goods">
-        <img class="info" src="imgs/tu5.png" alt="">
-        <img class="cart" src="imgs/加入购物车1.png" alt="">
-    </div>
-    <img src="imgs/tu6.png" alt="">
-</div>
+<div id="link">  
+        <img class="link-img" src="page.png" alt="">
+        <a onclick="toDetil('94198')" class="on1">图1</a>  
+        <a onclick="toDetil('94186')" class="on2">图2</a>  
+        <a onclick="toDetil('94201')" class="on3">图3</a>  
+        
+        <a onclick="toCart('94198',8818,1,'听','一件=12听')" class="on4 on4-1">1</a>  
+        <a onclick="toCart('94186',8818,1,'听','一件=12听')" class="on4 on4-2">2</a>  
+        <a onclick="toCart('94201',8818,1,'听','一件=24听')" class="on4 on4-3">3</a>  
+     </div>
 </body>
 <script>
     //ajax请求

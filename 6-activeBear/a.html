@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+    <script>
+        function toCart(skuId, dealerId, count, unit, integerZeroConvert) {
+            var u = navigator.userAgent;
+            if(window.__wxjs_environment === 'miniprogram'){ //С����
+                console.log("xiaochengxu")
+                wx.miniProgram.navigateTo({url: '/pages/details/details?skuId=' + skuId});
+            }else if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                window.jsObj.joinShoppingCart(skuId, dealerId, count, unit, integerZeroConvert);
+            } else if (u.indexOf('iPhone') > -1) {
+                var obj={
+                    'skuIdKey':skuId,
+                    'dealerIdKey':dealerId,
+                    'countKey':1,
+                    'unitKey':'��',
+                    'integerZeroConvertKey':'1��=12��'
+                }
+                window.webkit.messageHandlers.addGoodsCartByWeb.postMessage(obj)
+            }else{
+                alert('�豸��֧��');
+            }
+        }
+        function toDetil(skuId) {
+            var u = navigator.userAgent;
+            if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                window.jsObj.enterGoodsDetail(skuId);
+            } else if (u.indexOf('iPhone') > -1) {
+                window.webkit.messageHandlers.enterGoodsDetail.postMessage(skuId)
+            }else{
+                alert('�豸��֧��');
+            }
+        }
+    </script>
+    <style>
+    html {
+            width: 100%;
+            height: 100%; 
+            margin: 0;
+            padding: 0;
+            text-align:center;
+            font-size: 16px;
+            overflow-y:auto; 
+            overflow-x:hidden; 
+            background-color: #043005;
+
+        }
+        html::-webkit-scrollbar {
+                display: none;
+        }
+         body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #link {
+            width: 100%;
+        }
+        .link-img {
+            width: 100%;
+        }
+        
+     #link a {
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;opacity: 0.5;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    position:absolute;
+    display:block;
+    text-indent:-9999px;
+    text-decoration:none;
+    opacity: 0.7;
+    /* ͼƬ��ַ */
+}
+#link a.on1 {
+    width: 100%;
+    height: 46.6vw;
+    left: 0;
+    top: 106vw;
+    /*top: 26rem;*/
+    /* background-color: plum; */
+    } 
+
+#link a.on2 {
+    width: 100%;
+    height: 46.6vw;
+    left: 0;
+    top: 165vw;
+     /*background-color: pink; */
+    }
+#link a.on3 {
+    width: 100%;
+    height: 40vw;
+    left: 0;
+    top: 227.8vw;
+     /*background-color: palegreen; */
+        }  
+#link a.on4 {
+    width: 40vw;
+    height: 13.3vw;
+    }
+    #link a.on4-1 {
+        left: 46.67vw;
+        top: 136.3vw;
+        /* background: darkblue; */
+    }
+    #link a.on4-2 {
+        left: 13.3vw;
+        top: 198vw;
+         /*background: darkblue; */
+    }
+    #link a.on4-3 {
+        right: 13.3vw;
+        top: 255vw;
+         /*background: darkblue; */
+    }
+    </style>
+</head>
+<body>
+<div id="link">  
+        <img class="link-img" src="page.png" alt="">
+        <a onclick="toDetil('94198')" class="on1">ͼ1</a>  
+        <a onclick="toDetil('94186')" class="on2">ͼ2</a>  
+        <a onclick="toDetil('94201')" class="on3">ͼ3</a>  
+        
+        <a onclick="toCart('94198',8818,1,'��','1��=12��')" class="on4 on4-1">1</a>  
+        <a onclick="toCart('94186',8818,1,'��','1��=12��')" class="on4 on4-2">2</a>  
+        <a onclick="toCart('94201',8818,1,'��','1��=24��')" class="on4 on4-3">3</a>  
+     </div>
+</body>
+<script>
+    //ajax����
+    function Ajax(type, url, data, success, failed) {
+        // ����ajax����
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else {
+            xhr = new ActiveXObject('Microsoft.XMLHTTP')
+        }
+
+        var type = type.toUpperCase();
+        // �����������
+        var random = Math.random();
+
+        if (typeof data == 'object') {
+            var str = '';
+            for (var key in data) {
+                str += key + '=' + data[key] + '&';
+            }
+            data = str.replace(/&$/, '');
+        }
+
+        if (type == 'GET') {
+            if (data) {
+                xhr.open('GET', url + '?' + data, true);
+            } else {
+                xhr.open('GET', url + '?t=' + random, true);
+            }
+            xhr.send();
+
+        } else if (type == 'POST') {
+            xhr.open('POST', url, true);
+            // �����Ҫ�� html ������ POST ���ݣ�ʹ�� setRequestHeader() ����� http ͷ��
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+            //xhr.setRequestHeader("If-Modified-Since","0");  //�����������ʹ�û���
+            //xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+            xhr.send(data);
+        }
+
+        // ����������
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    success(xhr.responseText);
+                } else {
+                    if (failed) {
+                        failed(xhr.status);
+                    }
+                }
+            }
+        }
+    }
+</script>
+</html>
