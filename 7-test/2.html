@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <el-table
+            :data="tableData"
+            tooltip-effect="dark"
+            style="width: 100%"
+            header-align="center">
+        <el-table-column  width="50" header-align="center">
+            <template slot-scope="{row,$index}">
+                <span>{{$index + 1}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="名称"  prop="Name" width="300"  header-align="center">
+            <template slot-scope="{row,$index}">
+                <input class="edit-cell" v-if="showEdit[$index]"    v-model="row.Name">
+                <span v-if="!showEdit[$index]">{{row.Name}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+                fixed="right"
+                label="操作"
+                width="100"
+                header-align="center">
+            <template slot-scope="{row,$index}">
+                <el-button type="text" size="small"     @click.native="handleUpdate($index, row)"     v-if="showBtn[$index]">更新</el-button>
+                <el-button type="text" size="small"     @click.native="handleCancel($index, row)"     v-if="showBtn[$index]">取消</el-button>
+
+                <el-button type="text" size="small"     @click.native="handleEdit($index, row)"     v-if="!showBtn[$index]">编辑</el-button>
+                <el-button type="text" size="small"     @click.native="handleDelete($index, row)"     v-if="!showBtn[$index]">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                tableData:[{Name:'aa'},{Name:'aa'},{Name:'aa'}],
+                showEdit: [], //显示编辑框
+                showBtn: [],
+                showBtnOrdinary: true
+            }
+        },
+        created(){
+            /*for(var i = 0; i < 100; i ++) {
+        this.showEdit[i] = false;
+        this.showBtn[i] = false;
+        this.$set(vm.showEdit[i], false);
+        this.$set(vm.showBtn[i], false);
+    }*/
+        },
+        methods:{
+            //点击编辑
+            handleEdit(index, row){
+                this.showEdit[index] = true;
+                this.showBtn[index] = true;
+                this.$set(this.showEdit,row,true)
+                this.$set(this.showBtn,row,true)
+            },
+            //取消编辑
+            handleCancel(index, row){
+                // this.getContentList();
+                this.showEdit[index] = false;
+                this.showBtn[index] = false;
+            },
+
+            //点击更新
+            handleUpdate(formName){
+
+            },
+            //点击删除
+            handleDelete(index, row){
+
+            }
+        }
+    })
+</script>
+</html>
